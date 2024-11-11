@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "express": "^4.21.1",
+    "express-handlebars": "^8.0.1",
+    "socket.io": "^4.8.1"
+  },
+  "name": "entrega2_backend_rivas",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
