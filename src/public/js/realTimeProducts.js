@@ -70,7 +70,7 @@ function updateProductList(products){
         <div class="product-card" data-id="${product.id}">
             <h2>${product.title}</h2>
             <p>Descripción: ${product.description}</p>
-            <p>Precio: $${product.price}</p>
+            <p>Precio: $${parseFloat(product.price)}</p>
             <p>Stock: ${product.stock}</p>
             <p>Categoría: ${product.category}</p>
             <button class="delete-btn" onclick="deleteProduct('${product.id}')">Eliminar</button>

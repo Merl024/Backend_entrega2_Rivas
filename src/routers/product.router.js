@@ -43,7 +43,7 @@ router.post('/', async (req, res) => {
 router.put('/:pid', async (req, res) => {
     try {
         const updatedProduct = req.body;
-        const result = await productManager.updateProduct(parseInt(req.params.pid), updatedProduct);
+        const result = await productManager.updateProduct(req.params.pid, updatedProduct);
         if (result) {
             res.json({ message: 'Producto actualizado exitosamente' });
         } else {
@@ -57,7 +57,7 @@ router.put('/:pid', async (req, res) => {
 // DELETE product
 router.delete('/:pid', async (req, res) => {
     try {
-        const result = await productManager.deleteProduct(parseInt(req.params.pid));
+        const result = await productManager.deleteProduct(req.params.pid);
         if (result) {
             res.json({ message: 'Producto eliminado exitosamente' });
         } else {
