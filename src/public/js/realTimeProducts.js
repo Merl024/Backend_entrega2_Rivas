@@ -44,14 +44,15 @@ productForm.addEventListener('submit', (e) => {
 // Función para eliminar producto
 function deleteProduct(id) {
     Swal.fire({
-        title: '¿Estás seguro?',
-        text: "No podrás revertir esta acción",
+        title: '¿Está seguro?',
+        text: "No podrá revertir esta acción",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminar',
-        cancelButtonText: 'Cancelar'
+        confirmButtonText: 'Eliminar',
+        cancelButtonText: 'Cancelar',
+        allowOutsideClick: false
     }).then((result) => {
         if (result.isConfirmed) {
             socket.emit('deleteProduct', id)
