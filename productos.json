@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Audifonos Sony",
+    "description": "Con una excelente resolucion",
+    "price": 78,
+    "stock": 16,
+    "category": "Audifonos",
+    "id": "208d73b6-9591-4e01-92e0-65dec8263386"
+  },
+  {
+    "title": "Computadora HP",
+    "description": "Alta memoria de 16gb",
+    "price": 78,
+    "stock": 41,
+    "category": "Laptops",
+    "id": "03a4f7d2-4865-4303-91b9-cd91d615e796"
+  }
+]
