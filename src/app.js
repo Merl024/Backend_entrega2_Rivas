@@ -67,6 +67,20 @@ socketServer.on('connection', async (socket) => {
             socket.emit('error', { message: 'Error al eliminar el producto' })
         }
     })
+
+    socket.on('updateProduct', async (productId, updatedProduct) => {
+        try {
+            const product = await productManager.updateProduct(productId, updatedProduct)
+            if (product) {
+                const updatedProducts = await productManager.getProducts()
+                socketServer.emit('products', updatedProducts)
+            } else {
+                socket.emit('error', { message: 'Producto no encontrado' })
+            }
+        } catch (error) {
+            socket.emit('error', { message: 'Error al actualizar el producto' })
+        }
+    })    
 })
 
 export { socketServer }

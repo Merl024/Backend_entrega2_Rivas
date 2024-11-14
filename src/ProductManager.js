@@ -1,46 +1,45 @@
 import fs from 'fs/promises'
 import { v4 as uuidv4 } from 'uuid'
 
-class ProductManager{
-    constructor(path){
+class ProductManager {
+    constructor(path) {
         this.path = path
     }
 
-    async getProducts(){
+    async getProducts() {
         try {
             const data = await fs.readFile(this.path, "utf-8")
             return JSON.parse(data)
-            
         } catch (error) {
+            if (error.code === 'ENOENT') {
+                await this.postProducts([])
+                return []
+            }
             console.error("Error leyendo el archivo de productos", error)
-            return []
+            throw error
         }
     }
 
     async getProductsById(productId) {
         try {
-            const productos = await this.getProducts();
-            const product = productos.find(p => p.id === productId);
-    
-            if (!product) {
-                throw new Error('Producto no encontrado');
-            }
-    
-            return product
+            const productos = await this.getProducts()
+            const product = productos.find(p => p.id === productId)
+            return product || null
         } catch (error) {
-            console.error('Error al obtener el producto:', error);
+            console.error('Error al obtener el producto:', error)
             throw error
         }
     }
-    async postProducts(productos){
+
+    async postProducts(productos) {
         try {
-            const data = await fs.writeFile(this.path, JSON.stringify(productos, null, 2))
+            await fs.writeFile(this.path, JSON.stringify(productos, null, 2))
         } catch (error) {
-            throw new Error('Error agregando el producto', error)
+            throw new Error('Error al guardar los productos: ' + error.message)
         }
     }
 
-    async agregarProductos(producto){
+    async agregarProductos(producto) {
         try {
             const productos = await this.getProducts()
             producto.id = uuidv4()
@@ -48,45 +47,47 @@ class ProductManager{
             await this.postProducts(productos)
             return producto
         } catch (error) {
-            throw new Error('Error a agregar nuevo producto', error)
+            throw new Error('Error al agregar nuevo producto: ' + error.message)
         }
     }
 
-    async putProducts(productId, putProduct){
+    async updateProduct(productId, updatedProduct) {
         try {
             const productos = await this.getProducts()
             const index = productos.findIndex(p => p.id === productId)
             
-            if(index === -1){
-                throw Error('Producto no encontrado')
+            if (index === -1) {
+                return null
             }
-
-            productos[index] = putProduct
-            await this.postProducts(productos) 
-        } catch(error){
-            console.log(error)
+    
+            // Mantener el ID original y actualizar el resto de campos
+            const updatedProductWithId = { 
+                ...updatedProduct,
+                id: productId 
+            }
+            productos[index] = updatedProductWithId
+            await this.postProducts(productos)
+            return updatedProductWithId
+        } catch (error) {
+            throw new Error('Error al actualizar el producto: ' + error.message)
         }
     }
 
-    async deleteProduct(productId){
+    async deleteProduct(productId) {
         try {
             const productos = await this.getProducts()
-            const productosLength = productos.length
-            const deleteProd = productos.filter(p => p.id !== productId)
-
-            if (deleteProd.length === productosLength) {
+            const filteredProducts = productos.filter(p => p.id !== productId)
+            
+            if (filteredProducts.length === productos.length) {
                 return false
             }
     
-            await this.postProducts(deleteProd)
+            await this.postProducts(filteredProducts)
             return true
-            
         } catch (error) {
-            console.log('Error al eliminar el producto',error);
-            
+            throw new Error('Error al eliminar el producto: ' + error.message)
         }
     }
-
 }
 
 export default ProductManager

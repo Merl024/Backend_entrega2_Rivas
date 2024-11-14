@@ -3,10 +3,17 @@ const socket = io()
 // Elementos del DOM
 const productForm = document.getElementById('productForm')
 const productList = document.getElementById('productList')
+const submitButton = document.getElementById('submitButton')
+let editMode = false
+let editingProductId = null
 
 // Escuchar actualizaciones de productos
 socket.on('products', (products) => {
     updateProductList(products)
+    if (!editMode) {
+        productForm.reset()
+        submitButton.textContent = 'Agregar Producto'
+    }
 })
 
 // Escuchar errores
@@ -18,27 +25,56 @@ socket.on('error', (error) => {
     })
 })
 
+// Función para validar los campos del formulario
+function validateForm(product) {
+    if (!product.title || !product.description || !product.price || !product.stock || !product.category) {
+        throw new Error('Todos los campos son requeridos')
+    }
+    if (isNaN(product.price) || product.price <= 0) {
+        throw new Error('El precio debe ser un número válido mayor a 0')
+    }
+    if (isNaN(product.stock) || product.stock < 0) {
+        throw new Error('El stock debe ser un número válido no negativo')
+    }
+}
+
 // Manejar envío del formulario
-productForm.addEventListener('submit', (e) => {
+productForm.addEventListener('submit', async (e) => {
     e.preventDefault()
     
     const product = {
-        title: document.getElementById('title').value,
-        description: document.getElementById('description').value,
+        title: document.getElementById('title').value.trim(),
+        description: document.getElementById('description').value.trim(),
         price: Number(document.getElementById('price').value),
         stock: Number(document.getElementById('stock').value),
-        category: document.getElementById('category').value
+        category: document.getElementById('category').value.trim()
     }
 
-    socket.emit('newProduct', product)
-    productForm.reset()
-    
-    Swal.fire({
-        icon: 'success',
-        title: 'Producto agregado',
-        showConfirmButton: false,
-        timer: 1500
-    })
+    try {
+        validateForm(product)
+
+        if (editMode && editingProductId) {
+            await socket.emit('updateProduct', editingProductId, product)
+            editMode = false
+            editingProductId = null
+            submitButton.textContent = 'Agregar Producto'
+        } else {            
+            await socket.emit('newProduct', product)
+        }
+
+        Swal.fire({
+            icon: 'success',
+            title: editMode ? 'Producto actualizado' : 'Producto agregado',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.message
+        })
+    }
 })
 
 // Función para eliminar producto
@@ -51,8 +87,7 @@ function deleteProduct(id) {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Eliminar',
-        cancelButtonText: 'Cancelar',
-        allowOutsideClick: false
+        cancelButtonText: 'Cancelar'
     }).then((result) => {
         if (result.isConfirmed) {
             socket.emit('deleteProduct', id)
@@ -60,21 +95,48 @@ function deleteProduct(id) {
     })
 }
 
-// Función para actualizar la lista de productos
-function updateProductList(products){
-    if (products.length === 0) {
-        productList.innerHTML = '<p>No hay productos disponibles</p>'
-        return
-    }
+// Función para preparar la edición de producto
+function updateProduct(id) {
+    editMode = true
+    editingProductId = id
+    submitButton.textContent = 'Actualizar Producto'
 
-    productList.innerHTML = products.map(product => `
-        <div class="product-card" data-id="${product.id}">
-            <h2>${product.title}</h2>
-            <p>Descripción: ${product.description}</p>
-            <p>Precio: $${parseFloat(product.price)}</p>
-            <p>Stock: ${product.stock}</p>
-            <p>Categoría: ${product.category}</p>
-            <button class="delete-btn" onclick="deleteProduct('${product.id}')">Eliminar</button>
-        </div>
-    `).join('')
+    // Obtener producto actual y rellenar el formulario con sus datos
+    const productCard = document.querySelector(`.product-card[data-id="${id}"]`)
+    if (productCard) {
+        document.getElementById('title').value = productCard.querySelector('h2').textContent
+        document.getElementById('description').value = productCard.querySelectorAll('p')[0].textContent.split(': ')[1]
+        document.getElementById('price').value = productCard.querySelectorAll('p')[1].textContent.split('$')[1]
+        document.getElementById('stock').value = productCard.querySelectorAll('p')[2].textContent.split(': ')[1]
+        document.getElementById('category').value = productCard.querySelectorAll('p')[3].textContent.split(': ')[1]
+        
+        productForm.scrollIntoView({ behavior: 'smooth' })
+    }
+}
+
+// Función para actualizar la lista de productos
+function updateProductList(products) {
+    productList.innerHTML = products.length === 0 
+        ? '<p>No hay productos disponibles</p>'
+        : products.map(product => `
+            <div class="col-md-12 mb-3">
+                <div class="card product-card" data-id="${product.id}">
+                    <div class="card-body">
+                        <h2 class="card-title">${product.title}</h2>
+                        <p class="card-text">Descripción: ${product.description}</p>
+                        <p class="card-text">Precio: $${product.price}</p>
+                        <p class="card-text">Stock: ${product.stock}</p>
+                        <p class="card-text">Categoría: ${product.category}</p>
+                        <div class="btn-group">
+                            <button class="btn btn-primary update-btn" onclick="updateProduct('${product.id}')">
+                                Actualizar
+                            </button>
+                            <button class="btn btn-danger delete-btn" onclick="deleteProduct('${product.id}')">
+                                Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('')
 }

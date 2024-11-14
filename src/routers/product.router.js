@@ -40,6 +40,7 @@ router.post('/', async (req, res) => {
 });
 
 // PUT update product
+// PUT update product
 router.put('/:pid', async (req, res) => {
     try {
         const updatedProduct = req.body;
@@ -52,7 +53,7 @@ router.put('/:pid', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Error al actualizar el producto' });
     }
-});
+})
 
 // DELETE product
 router.delete('/:pid', async (req, res) => {

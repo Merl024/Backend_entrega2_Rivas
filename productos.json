@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "title": "Computadora HP",
+    "description": "Alta memoria de 16gb con 1 TB de almacenamiento",
+    "price": 678.99,
+    "stock": 59,
+    "category": "Laptops",
+    "id": "789fd932-d89d-443e-a7b5-f28bee65d951"
+  },
+  {
+    "title": "Camara digital CANON",
+    "description": "3000 EOS, con alta resolucion y opciones de video",
+    "price": 867.9,
+    "stock": 30,
+    "category": "Camaras",
+    "id": "80e837ba-28f6-4711-8280-dfd4d0be62cf"
+  },
+  {
+    "title": "Tableta SAMSUNG",
+    "description": "Alta memoria de 16gb",
+    "price": 488,
+    "stock": 20,
+    "category": "Tablets",
+    "id": "d66090c4-8b1a-4b2c-8ec3-c1c7fec244cb"
+  },
+  {
+    "title": "Telefono iPhone",
+    "description": "Con poca memoria pero buena camara",
+    "price": 1000,
+    "stock": 30,
+    "category": "Telefonos",
+    "id": "11f09509-5564-4890-810a-10e0ea022e01"
+  },
+  {
+    "title": "Audifonos SONY",
+    "description": "Con alto alcance de bluetooth y tiene para suprimir el sonido del exterior",
+    "price": 89.99,
+    "stock": 19,
+    "category": "Audifonos",
+    "id": "696eaa08-08c8-408f-aafd-454364c1e700"
+  },
+  {
+    "title": "Reloj FitDock",
+    "description": "Reloj inteligente con varias aplicaciones incluidas, es resistente al agua y tiene una cuerda verde claro",
+    "price": 25.99,
+    "stock": 44,
+    "category": "Relojes",
+    "id": "fd2364e5-c728-4817-ada8-38f022e597e0"
+  }
+]
