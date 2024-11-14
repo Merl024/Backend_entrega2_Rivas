@@ -2,34 +2,26 @@
   {
     "title": "Computadora HP",
     "description": "Alta memoria de 16gb con 1 TB de almacenamiento",
-    "price": 678.99,
-    "stock": 59,
+    "price": 689.24,
+    "stock": 48,
     "category": "Laptops",
     "id": "789fd932-d89d-443e-a7b5-f28bee65d951"
   },
   {
     "title": "Camara digital CANON",
     "description": "3000 EOS, con alta resolucion y opciones de video",
-    "price": 867.9,
-    "stock": 30,
-    "category": "Camaras",
+    "price": 867.95,
+    "stock": 24,
+    "category": "Cámaras",
     "id": "80e837ba-28f6-4711-8280-dfd4d0be62cf"
   },
   {
     "title": "Tableta SAMSUNG",
     "description": "Alta memoria de 16gb",
-    "price": 488,
+    "price": 488.99,
     "stock": 20,
     "category": "Tablets",
     "id": "d66090c4-8b1a-4b2c-8ec3-c1c7fec244cb"
-  },
-  {
-    "title": "Telefono iPhone",
-    "description": "Con poca memoria pero buena camara",
-    "price": 1000,
-    "stock": 30,
-    "category": "Telefonos",
-    "id": "11f09509-5564-4890-810a-10e0ea022e01"
   },
   {
     "title": "Audifonos SONY",
@@ -42,9 +34,57 @@
   {
     "title": "Reloj FitDock",
     "description": "Reloj inteligente con varias aplicaciones incluidas, es resistente al agua y tiene una cuerda verde claro",
-    "price": 25.99,
+    "price": 27.99,
     "stock": 44,
     "category": "Relojes",
     "id": "fd2364e5-c728-4817-ada8-38f022e597e0"
+  },
+  {
+    "title": "Telefono iPhone",
+    "description": "Es un telefono de alta gama el cual es resistente al agua",
+    "price": 800,
+    "stock": 12,
+    "category": "Telefonos",
+    "id": "7fb4ea9a-4a18-49d6-81fc-e3c3dee40eff"
+  },
+  {
+    "title": "Earbuds S42",
+    "description": "Audifonos inalambricos con alto rango perfectos para correr",
+    "price": 29.99,
+    "stock": 20,
+    "category": "Audifonos",
+    "id": "ce8dae00-bde0-4666-bf6a-996416a09dc7"
+  },
+  {
+    "title": "iPad 2016",
+    "description": "Con todas las funcionalidades basicas perfecta para niños pequeños o leer",
+    "price": 200,
+    "stock": 10,
+    "category": "Tab",
+    "id": "3ba6c282-216f-4e35-b993-8a762f2e0476"
+  },
+  {
+    "title": "Computadora HP ENVY",
+    "description": "Es una computadora tactil perfecta para todo tipo de trabajos, cuenta con 16 GB RAM y 1 TB de almacenamiento",
+    "price": 599.99,
+    "stock": 29,
+    "category": "Laptops",
+    "id": "977997c2-4d66-438a-abfb-1f9834b1eee0"
+  },
+  {
+    "title": "Mouse",
+    "description": "EnvyTech un mouse inalambrico perfecto para evitar tener cables",
+    "price": 9.99,
+    "stock": 50,
+    "category": "Ratones",
+    "id": "c8bfbe56-5bd1-4437-b839-9bd8c811ef2d"
+  },
+  {
+    "title": "Samsung 21+",
+    "description": "Telefono de alta gama con 200gb de almacenamiento",
+    "price": 500,
+    "stock": 20,
+    "category": "Telefonos",
+    "id": "e21d7091-6e76-49cf-af82-15209cdbfb1d"
   }
 ]

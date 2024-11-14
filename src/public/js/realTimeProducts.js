@@ -52,22 +52,27 @@ productForm.addEventListener('submit', async (e) => {
 
     try {
         validateForm(product)
-
         if (editMode && editingProductId) {
             await socket.emit('updateProduct', editingProductId, product)
+            Swal.fire({
+                icon: 'success',
+                title: 'Producto actualizado',
+                showConfirmButton: false,
+                timer: 1500
+            })
             editMode = false
             editingProductId = null
             submitButton.textContent = 'Agregar Producto'
         } else {            
             await socket.emit('newProduct', product)
+            Swal.fire({
+                icon: 'success',
+                title: 'Producto agregado',
+                showConfirmButton: false,
+                timer: 1500
+            })
         }
-
-        Swal.fire({
-            icon: 'success',
-            title: editMode ? 'Producto actualizado' : 'Producto agregado',
-            showConfirmButton: false,
-            timer: 1500
-        })
+    
     } catch (error) {
         Swal.fire({
             icon: 'error',
