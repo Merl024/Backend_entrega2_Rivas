@@ -4,6 +4,19 @@ import { v4 as uuidv4 } from 'uuid'
 class ProductManager {
     constructor(path) {
         this.path = path
+        this.initializeFile()
+    }
+
+    async initializeFile() {
+        try {
+            await fs.access(this.path)
+        } catch (error) {
+            if (error.code === 'ENOENT') {
+                await fs.writeFile(this.path, '[]')
+            } else {
+                throw error
+            }
+        }
     }
 
     async getProducts() {
@@ -11,10 +24,6 @@ class ProductManager {
             const data = await fs.readFile(this.path, "utf-8")
             return JSON.parse(data)
         } catch (error) {
-            if (error.code === 'ENOENT') {
-                await this.postProducts([])
-                return []
-            }
             console.error("Error leyendo el archivo de productos", error)
             throw error
         }

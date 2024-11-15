@@ -18,15 +18,28 @@ Si un producto ya existente intenta agregarse, se debe incrementar el campo quan
 
 import fs from 'fs/promises'
 import { v4 as uuidv4 } from 'uuid'
-import ProductManager from './ProductManager';
+// import ProductManager from './ProductManager';
 
-const productManager = new ProductManager('products.json');
+// const productManager = new ProductManager('products.json');
 
 class CartManager{
     constructor(path){
         this.path = path
+        this.initializeFile()
     }
 
+    async initializeFile(){
+        try {
+            await fs.access(this.path)
+        } catch (error) {
+            if (error.code === 'ENOENT') {
+                await fs.writeFile(this.path,   '[]')
+            }else{
+                throw error
+            }
+            
+        }
+    }
     async getCarts(){
         try{
             const carts = await fs.readFile(this.path, 'utf8');
