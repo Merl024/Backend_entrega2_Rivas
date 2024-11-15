@@ -6,12 +6,14 @@ import { dirname } from 'path';
 import viewsRouter from './routers/views.router.js'
 import productRouter from './routers/product.router.js'
 import ProductManager from './managers/ProductManager.js'
+import CartManager from './managers/CartManager.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const app = express();
 const productManager = new ProductManager('./productos.json')
+const cartManager = new CartManager('./carts.json')
 const PORT = process.env.PORT || 8080
 
 app.use(express.json())
