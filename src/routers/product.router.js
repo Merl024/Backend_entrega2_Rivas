@@ -40,7 +40,6 @@ router.post('/', async (req, res) => {
 });
 
 // PUT update product
-// PUT update product
 router.put('/:pid', async (req, res) => {
     try {
         const updatedProduct = req.body;

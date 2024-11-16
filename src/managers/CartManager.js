@@ -63,7 +63,6 @@ class CartManager {
                 throw new Error('El carrito no existe')
             }
 
-            // Verificar si el producto existe
             const product = await this.productManager.getProductsById(productId)
             if (!product) {
                 throw new Error('El producto no existe')
@@ -73,10 +72,8 @@ class CartManager {
             const existingProductIndex = cart.products.findIndex(p => p.id === productId)
 
             if (existingProductIndex !== -1) {
-                // Si el producto ya está en el carrito, incrementa la cantidad
                 cart.products[existingProductIndex].quantity++
             } else {
-                // Si el producto no está en el carrito, lo agrega
                 cart.products.push({ id: productId, quantity: 1 })
             }
 
