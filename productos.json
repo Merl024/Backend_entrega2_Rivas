@@ -1,34 +1,34 @@
 [
   {
-    "title": "Audífonos Sony WH-1000XM5",
-    "description": "Audífonos inalámbricos con cancelación de ruido de última generación.",
-    "price": 349,
-    "stock": 50,
-    "category": "Audífonos.",
-    "id": "efcee732-bf7b-4509-8c9c-29181456f6de"
-  },
-  {
-    "title": "Laptop HP Envy de 12\"",
-    "description": "Con un disco interno de 1 TB de almacenamiento y con una memoria RAM de 16 GB",
-    "price": 678.99,
-    "stock": 30,
-    "category": "Laptops",
-    "id": "937d088c-6e8c-4506-970e-387ae76400ab"
-  },
-  {
-    "title": "Samsung +21",
-    "description": "De almacenamiento de 128 GB y con una memoria de 8 GB",
-    "price": 400,
-    "stock": 20,
-    "category": "Telefonos",
-    "id": "457c6c63-f74b-4cfb-9c9e-af62d50f560d"
-  },
-  {
     "title": "Nintendo",
     "description": "Nintendo ultradelgada con procesador Intel i7, pantalla de 13 pulgadas.",
     "price": 500,
     "stock": 50,
     "category": "Consolas",
-    "id": "c9cce69c-43e7-44b1-b1fa-f8f739a2574e"
+    "id": "46b17619-bd39-42b7-90b4-8e15218ffe4d"
+  },
+  {
+    "title": "Camara CANON 3000 EOS",
+    "description": "Resolucion de 1080 mega pixeles con acceso a grabadora de video",
+    "price": 316,
+    "stock": 15,
+    "category": "Camaras.",
+    "id": "1fce557d-a94e-4c7c-bf53-d7645feddb8a"
+  },
+  {
+    "title": "Audífonos Sony WH-1000XM5",
+    "description": "Audífonos inalámbricos con cancelación de ruido de última generación.",
+    "price": 349,
+    "stock": 50,
+    "category": "Audífonos.",
+    "id": "f33a5f2c-1dc2-4fe9-b9dc-980b5b94885e"
+  },
+  {
+    "title": "Lampara portatil",
+    "description": "Con soporte movible perfecto para ajustarlo como quieras",
+    "price": 10.99,
+    "stock": 35,
+    "category": "Lamparas.",
+    "id": "8871673b-d86f-4031-8153-bdc018b57bde"
   }
 ]

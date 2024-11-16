@@ -14,7 +14,6 @@ const __dirname = dirname(__filename)
 
 const app = express();
 const productManager = new ProductManager('./productos.json')
-const cartManager = new CartManager('./carts.json')
 const PORT = process.env.PORT || 8080
 
 app.use(express.json())

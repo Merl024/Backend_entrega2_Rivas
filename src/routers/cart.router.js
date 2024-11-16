@@ -1,43 +1,48 @@
-import { Router } from 'express';
+import express from 'express';
 import CartManager from '../managers/CartManager.js';
 
-const router = Router();
+const router = express.Router();
 const cartManager = new CartManager('./carts.json');
 
-// POST /api/carts/ - Crear nuevo carrito
+// GET - Obtener todos los carritos
+router.get('/', async (req, res) => {
+    try {
+        const carts = await cartManager.getCarts();
+        res.json(carts);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// GET - Obtener un carrito por ID
+router.get('/:cid', async (req, res) => {
+    try {
+        const { cid } = req.params;
+        const cart = await cartManager.getCart(cid);
+        res.json(cart);
+    } catch (error) {
+        res.status(404).json({ error: error.message });
+    }
+});
+
+// Ruta existente para crear un nuevo carrito
 router.post('/', async (req, res) => {
     try {
-        const newCart = await cartManager.createCart();
+        const newCart = await cartManager.postCart();
         res.status(201).json(newCart);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-// GET /api/carts/:cid - Listar productos en carrito
-router.get('/:cid', async (req, res) => {
-    try {
-        const cart = await cartManager.getCart(req.params.cid);
-        if (!cart) {
-            return res.status(404).json({ error: 'Carrito no encontrado' });
-        }
-        res.json(cart);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// POST /api/carts/:cid/product/:pid - Agregar producto al carrito
+// Nueva ruta para agregar un producto a un carrito
 router.post('/:cid/product/:pid', async (req, res) => {
     try {
-        const cart = await cartManager.addProductToCart(req.params.cid, req.params.pid);
-        res.json(cart);
+        const { cid, pid } = req.params;
+        const updatedCart = await cartManager.addProductToCart(cid, pid);
+        res.json(updatedCart);
     } catch (error) {
-        if (error.message.includes('no encontró')) {
-            res.status(404).json({ error: error.message });
-        } else {
-            res.status(500).json({ error: error.message });
-        }
+        res.status(400).json({ error: error.message });
     }
 });
 
