@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url'
 import { dirname } from 'path';
 import viewsRouter from './routers/views.router.js'
 import productRouter from './routers/product.router.js'
+import cartRouter from './routers/cart.router.js'
 import ProductManager from './managers/ProductManager.js'
 import CartManager from './managers/CartManager.js'
 
@@ -28,6 +29,7 @@ app.set('view engine', 'handlebars')
 // Rutas
 app.use('/', viewsRouter)
 app.use('/api/products', productRouter)
+app.use('/api/carts', cartRouter)
 
 // Servidor HTTP
 const httpServer = app.listen(PORT, () => {

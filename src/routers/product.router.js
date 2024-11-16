@@ -1,72 +1,93 @@
-import express from 'express';
-import ProductManager from '../managers/ProductManager.js';
+import fs from 'fs/promises'
+import { v4 as uuidv4 } from 'uuid'
 
-const router = express.Router();
-const productManager = new ProductManager('./productos.json');
-
-// GET all products
-router.get('/', async (req, res) => {
-    try {
-        const products = await productManager.getProducts();
-        res.json(products);
-    } catch (error) {
-        res.status(500).json({ error: 'Error al obtener los productos' });
+class ProductManager {
+    constructor(path) {
+        this.path = path
     }
-});
 
-// GET product by ID
-router.get('/:pid', async (req, res) => {
-    try {
-        const product = await productManager.getProductsById(req.params.pid);
-        if (product) {
-            res.json(product);
-        } else {
-            res.status(404).json({ error: 'Producto no encontrado' });
+    async getProducts() {
+        try {
+            const data = await fs.readFile(this.path, "utf-8")
+            return JSON.parse(data)
+        } catch (error) {
+            if (error.code === 'ENOENT') {
+                await this.postProducts([])
+                return []
+            }
+            console.error("Error leyendo el archivo de productos", error)
+            throw error
         }
-    } catch (error) {
-        res.status(500).json({ error: 'Error al obtener el producto' });
     }
-});
 
-// POST new product
-router.post('/', async (req, res) => {
-    try {
-        const newProduct = req.body;
-        await productManager.agregarProductos(newProduct);
-        res.status(201).json({ message: 'Producto agregado exitosamente' });
-    } catch (error) {
-        res.status(500).json({ error: 'Error al agregar el producto' });
-    }
-});
-
-// PUT update product
-// PUT update product
-router.put('/:pid', async (req, res) => {
-    try {
-        const updatedProduct = req.body;
-        const result = await productManager.updateProduct(req.params.pid, updatedProduct);
-        if (result) {
-            res.json({ message: 'Producto actualizado exitosamente' });
-        } else {
-            res.status(404).json({ error: 'Producto no encontrado' });
+    async getProductsById(productId) {
+        try {
+            const productos = await this.getProducts()
+            const product = productos.find(p => p.id === productId)
+            return product || null
+        } catch (error) {
+            console.error('Error al obtener el producto:', error)
+            throw error
         }
-    } catch (error) {
-        res.status(500).json({ error: 'Error al actualizar el producto' });
     }
-})
 
-// DELETE product
-router.delete('/:pid', async (req, res) => {
-    try {
-        const result = await productManager.deleteProduct(req.params.pid);
-        if (result) {
-            res.json({ message: 'Producto eliminado exitosamente' });
-        } else {
-            res.status(404).json({ error: 'Producto no encontrado' });
+    async postProducts(productos) {
+        try {
+            await fs.writeFile(this.path, JSON.stringify(productos, null, 2))
+        } catch (error) {
+            throw new Error('Error al guardar los productos: ' + error.message)
         }
-    } catch (error) {
-        res.status(500).json({ error: 'Error al eliminar el producto' });
     }
-});
 
-export default router;
+    async agregarProductos(producto) {
+        try {
+            const productos = await this.getProducts()
+            producto.id = uuidv4()
+            productos.push(producto)
+            await this.postProducts(productos)
+            return producto
+        } catch (error) {
+            throw new Error('Error al agregar nuevo producto: ' + error.message)
+        }
+    }
+
+    async updateProduct(productId, updatedProduct) {
+        try {
+            const productos = await this.getProducts()
+            const index = productos.findIndex(p => p.id === productId)
+            
+            if (index === -1) {
+                return null
+            }
+    
+            // Mantener el ID original y actualizar el resto de campos
+            const updatedProductWithId = { 
+                ...updatedProduct,
+                id: productId 
+            }
+            productos[index] = updatedProductWithId
+            await this.postProducts(productos)
+            return updatedProductWithId
+        } catch (error) {
+            throw new Error('Error al actualizar el producto: ' + error.message)
+        }
+    }
+
+    async deleteProduct(productId) {
+        try {
+            const productos = await this.getProducts()
+            const filteredProducts = productos.filter(p => p.id !== productId)
+            
+            if (filteredProducts.length === productos.length) {
+                return false
+            }
+    
+            await this.postProducts(filteredProducts)
+            return true
+        } catch (error) {
+            throw new Error('Error al eliminar el producto: ' + error.message)
+        }
+    }
+}
+
+export default ProductManager

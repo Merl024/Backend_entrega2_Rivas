@@ -18,7 +18,6 @@ class ProductManager {
             }
         }
     }
-
     async getProducts() {
         try {
             const data = await fs.readFile(this.path, "utf-8")
