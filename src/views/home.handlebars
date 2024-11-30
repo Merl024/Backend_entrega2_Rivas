@@ -4,7 +4,7 @@
         <div class="product-list">
             {{#if products.length}}
                 {{#each products}}
-                <div class="card">
+                <div class="card mb-3">
                     <div class="card-body">
                         <div class="product-card">
                             <h2 class="card-title">{{title}}</h2>
@@ -17,8 +17,45 @@
                 </div>
                 {{/each}}
             {{else}}
-                <h3>Aun no hay productos disponibles</h3>
+                <h3>Aún no hay productos disponibles</h3>
             {{/if}}
         </div>
     </div>
+
+    <!-- Controles de Paginación -->
+    <nav aria-label="Paginación de productos">
+        <ul class="pagination justify-content-center">
+            {{#if hasPrevPage}}
+            <li class="page-item">
+                <a class="page-link" href="?page={{prevPage}}&limit={{limit}}" aria-label="Anterior">
+                    <span aria-hidden="true">&laquo; Anterior</span>
+                </a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+                <span class="page-link">&laquo; Anterior</span>
+            </li>
+            {{/if}}
+
+            {{#each pages}}
+            <li class="page-item {{#if active}}active{{/if}}">
+                <a class="page-link" href="?page={{number}}&limit={{../limit}}">
+                    {{number}}
+                </a>
+            </li>
+            {{/each}}
+
+            {{#if hasNextPage}}
+            <li class="page-item">
+                <a class="page-link" href="?page={{nextPage}}&limit={{limit}}" aria-label="Siguiente">
+                    <span aria-hidden="true">Siguiente &raquo;</span>
+                </a>
+            </li>
+            {{else}}
+            <li class="page-item disabled">
+                <span class="page-link">Siguiente &raquo;</span>
+            </li>
+            {{/if}}
+        </ul>
+    </nav>
 </div>

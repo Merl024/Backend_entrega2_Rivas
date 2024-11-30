@@ -1,25 +1,28 @@
 import { Router } from 'express'
-import ProductManager from '../managers/ProductManager.js'
+import { productModel } from '../models/product.model.js'
 
 const router = Router()
-const productManager = new ProductManager('./productos.json')
 
 router.get('/', async (req, res) => {
     try {
-        const products = await productManager.getProducts()
-        res.render('home', { products })
+        // Obtenemos los productos desde MongoDB
+        const products = await productModel.find().lean(); 
+        res.render('home', { products });
     } catch (error) {
-        res.status(500).send('Error al obtener productos')
+        console.error('Error al obtener productos:', error);
+        res.status(500).send('Error al obtener productos');
     }
-})
+});
 
 router.get('/realtimeproducts', async (req, res) => {
     try {
-        const products = await productManager.getProducts()
-        res.render('realTimeProducts', { products })
+        // Obtenemos los productos desde MongoDB
+        const products = await productModel.find().lean();
+        res.render('realTimeProducts', { products });
     } catch (error) {
-        res.status(500).send('Error al obtener productos')
+        console.error('Error al obtener productos:', error);
+        res.status(500).send('Error al obtener productos');
     }
-})
+});
 
-export default router
+export default router;

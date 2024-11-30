@@ -29,6 +29,9 @@
                         <button type="submit" class="btn btn-primary w-100" id="submitButton">
                             Agregar Producto
                         </button>
+                        {{!-- <button type="submit" class="btn btn-primary w-100">
+                            Agregar al carrito
+                        </button> --}}
                     </form>
                 </div>
             </div>
@@ -39,7 +42,7 @@
                 {{#if products.length}}
                     {{#each products}}
                         <div class="col-md-12 mb-3">
-                            <div class="card product-card" data-id="{{this.id}}">
+                            <div class="card product-card" data-id="{{this._id}}">
                                 <div class="card-body">
                                     <h2 class="card-title">{{this.title}}</h2>
                                     <p class="card-text">Descripción: {{this.description}}</p>

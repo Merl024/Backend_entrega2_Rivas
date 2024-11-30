@@ -53,7 +53,7 @@ productForm.addEventListener('submit', async (e) => {
     try {
         validateForm(product)
         if (editMode && editingProductId) {
-            await socket.emit('updateProduct', editingProductId, product)
+            socket.emit('updateProduct', editingProductId, product);
             Swal.fire({
                 icon: 'success',
                 title: 'Producto actualizado',
@@ -81,6 +81,11 @@ productForm.addEventListener('submit', async (e) => {
         })
     }
 })
+function editProduct(productId) {
+    console.log('Modo de edición activado para el producto con ID:', productId);
+    editMode = true;
+    editingProductId = productId; // Asegura que este valor esté definido
+}
 
 // Función para eliminar producto
 function deleteProduct(id) {
@@ -125,7 +130,7 @@ function updateProductList(products) {
         ? '<p>No hay productos disponibles</p>'
         : products.map(product => `
             <div class="col-md-12 mb-3">
-                <div class="card product-card" data-id="${product.id}">
+                <div class="card product-card" data-id="${product._id}">
                     <div class="card-body">
                         <h2 class="card-title">${product.title}</h2>
                         <p class="card-text">Descripción: ${product.description}</p>
@@ -133,10 +138,10 @@ function updateProductList(products) {
                         <p class="card-text">Stock: ${product.stock}</p>
                         <p class="card-text">Categoría: ${product.category}</p>
                         <div class="btn-group">
-                            <button class="btn btn-primary update-btn" onclick="updateProduct('${product.id}')">
+                            <button class="btn btn-primary update-btn" onclick="updateProduct('${product._id}')">
                                 Actualizar
                             </button>
-                            <button class="btn btn-danger delete-btn" onclick="deleteProduct('${product.id}')">
+                            <button class="btn btn-danger delete-btn" onclick="deleteProduct('${product._id}')">
                                 Eliminar
                             </button>
                         </div>
