@@ -136,32 +136,29 @@ router.put('/:cid', async (req, res) => {
     }
 });
 
-// AYUDA // 
-// PUT api/carts/:cid/products/:pid 
+// AYUDA // // PUT api/carts/:cid/products/:pid
 router.put('/:cid/products/:pid', async (req, res) => {
     try {
-        const { cid, pid } = req.params; 
+        const { cid, pid } = req.params;
         const { quantity } = req.body;
+
         if (!quantity || typeof quantity !== 'number' || quantity < 1) {
             return res.status(400).json({
                 error: 'La cantidad debe ser un número mayor o igual a 1.',
             });
         }
-        const cart = await cartModel.findById(cid);
-        if (!cart) {
-            return res.status(404).json({ error: 'Carrito no encontrado.' });
-        }
-        const productInCart = cart.products.find(
-            (item) => item.product.toString() === pid 
+
+        // Buscar y actualizar el producto en el carrito
+        const updatedCart = await cartModel.findOneAndUpdate(
+            { _id: cid, 'products.product': pid },
+            { $set: { 'products.$.quantity': quantity } },
+            { new: true, runValidators: true }
         );
 
-        if (!productInCart) {
-            return res.status(404).json({
-                error: 'El producto no existe en este carrito.',
-            });
+        if (!updatedCart) {
+            return res.status(404).json({ error: 'Carrito o producto no encontrado.' });
         }
-        productInCart.quantity = quantity;
-        const updatedCart = await cart.save();
+
         res.json({
             status: 'success',
             message: 'Cantidad actualizada correctamente.',

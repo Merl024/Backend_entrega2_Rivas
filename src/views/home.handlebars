@@ -12,6 +12,10 @@
                             <p class="card-text">Descripción: {{description}}</p>
                             <p class="card-text">Precio: ${{price}}</p>
                             <p class="card-text">Stock: {{stock}}</p>
+                            <!-- Nuevo botón para agregar al carrito -->
+                            <button class="btn btn-primary add-to-cart" onclick="addToCart('{{_id}}')">
+                                Agregar al carrito
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -59,3 +63,7 @@
         </ul>
     </nav>
 </div>
+
+<!-- SweetAlert script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/addToCart.js"></script>
