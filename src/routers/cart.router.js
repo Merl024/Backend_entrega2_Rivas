@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-// POST - Publicar un producto dentro del id del carrito
+// POST /:cid/product/:pid - Publicar un producto dentro del id del carrito
 router.post('/:cid/product/:pid', async (req, res) => {
     try {
         const { cid, pid } = req.params;
@@ -78,7 +78,7 @@ router.post('/:cid/product/:pid', async (req, res) => {
     }
 });
 
-// DELETE api/carts/:cid/products/:pid
+// DELETE api/carts/:cid/products/:pid - elimina producto del carrito
 router.delete('/:cid/products/:pid', async (req, res) => {
     try {
         const { cid, pid } = req.params;
