@@ -20,7 +20,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 const app = express();
-const PORT = 9090 || 3000
+const PORT = 9090 || 3000 // Use dos ports diferentes para asegurarme que si no funciona en uno, funcione en el otro
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true  }))
@@ -31,7 +31,7 @@ app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + '/views')
 app.set('view engine', 'handlebars')
 
-// Helpers de handlebars
+// Helpers de handlebars para que funcione la gestion paginate
 app.engine(
     'handlebars',
     handlebars.engine({
@@ -49,7 +49,6 @@ app.engine(
         },
     })
 );
-
 
 // Rutas
 app.use('/', viewsRouter)
@@ -95,6 +94,7 @@ socketServer.on('connection', async (socket) => {
         }
     });
     
+    // Eliminando el producto
     socket.on('deleteProduct', async (productId) => {
         try {
             const result = await productModel.findByIdAndDelete(productId); 
@@ -109,7 +109,7 @@ socketServer.on('connection', async (socket) => {
         }
     });
 
-    // Servidor - src/app.js
+    // Actualizando el producto
     socket.on('updateProduct', async (productId, updatedProduct) => {
         if (!productId || productId === 'undefined') {
             socket.emit('error', { message: 'ID del producto no válido' });

@@ -6,6 +6,7 @@
                 <div class="card-body">
                     <h2 class="card-title h4">Agregar o Editar Producto</h2>
                     <form id="productForm" class="mt-3">
+                        {{!-- Forms que maneja el agregar o actualizar un producto --}}
                         <div class="form-group mb-3">
                             <label for="title">Título</label>
                             <input type="text" class="form-control" id="title" required>
@@ -29,9 +30,6 @@
                         <button type="submit" class="btn btn-primary w-100" id="submitButton">
                             Agregar Producto
                         </button>
-                        <button type="submit" class="btn btn-primary w-100" id="addToCart">
-                            Agregar al carrito
-                        </button>
                     </form>
                 </div>
             </div>
@@ -44,6 +42,8 @@
                         <div class="col-md-12 mb-3">
                             <div class="card product-card" data-id="{{this._id}}">
                                 <div class="card-body">
+                                    {{!-- Estas son las cards que aparecen a la par del formulario
+                                    Las cuales que se actualizan en tiempo real --}}
                                     <h2 class="card-title">{{this.title}}</h2>
                                     <p class="card-text">Descripción: {{this.description}}</p>
                                     <p class="card-text">Precio: ${{this.price}}</p>

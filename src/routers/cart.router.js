@@ -4,7 +4,7 @@ import { productModel } from '../models/product.model.js';
 
 const router = express.Router();
 
-// GET - Obtener todos los carritos
+// GET - Obtener TODOS los carritos
 router.get('/', async (req, res) => {
     try {
         const carts = await cartModel.find()
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// GET - Obtener un carrito por ID
+// GET /:cid - Obtener un carrito por ID
 router.get('/:cid', async (req, res) => { 
     try {
         const { cid } = req.params;
@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-// POST /:cid/product/:pid - Publicar un producto dentro del id del carrito
+// POST /:cid/product/:pid - Publicar un producto (por id) dentro del id del carrito
 router.post('/:cid/product/:pid', async (req, res) => {
     try {
         const { cid, pid } = req.params;
@@ -64,7 +64,6 @@ router.post('/:cid/product/:pid', async (req, res) => {
             cart.products.push({ product: pid, quantity: 1 });
         }
 
-        // Guardar los cambios en el carrito
         const updatedCart = await cart.save();
 
         res.json({
@@ -78,7 +77,7 @@ router.post('/:cid/product/:pid', async (req, res) => {
     }
 });
 
-// DELETE api/carts/:cid/products/:pid - elimina producto del carrito
+// DELETE api/carts/:cid/products/:pid - elimina el producto seleccionado del carrito
 router.delete('/:cid/products/:pid', async (req, res) => {
     try {
         const { cid, pid } = req.params;
@@ -103,7 +102,7 @@ router.delete('/:cid/products/:pid', async (req, res) => {
     }
 });
 
-// PUT api/carts/:cid 
+// PUT api/carts/:cid  - Actualiza el carrito YA CREADO. Pues se puede actualizar agregando mas productos
 router.put('/:cid', async (req, res) => {
     try {
         const { cid } = req.params;
@@ -136,7 +135,7 @@ router.put('/:cid', async (req, res) => {
     }
 });
 
-// AYUDA // // PUT api/carts/:cid/products/:pid
+// PUT api/carts/:cid/products/:pid - Actualizar la cantidad de un producto ya creado
 router.put('/:cid/products/:pid', async (req, res) => {
     try {
         const { cid, pid } = req.params;
@@ -147,8 +146,6 @@ router.put('/:cid/products/:pid', async (req, res) => {
                 error: 'La cantidad debe ser un número mayor o igual a 1.',
             });
         }
-
-        // Buscar y actualizar el producto en el carrito
         const updatedCart = await cartModel.findOneAndUpdate(
             { _id: cid, 'products.product': pid },
             { $set: { 'products.$.quantity': quantity } },
@@ -172,7 +169,7 @@ router.put('/:cid/products/:pid', async (req, res) => {
     }
 });
 
-// DELETE api/carts/:cid 
+// DELETE api/carts/:cid - elemina TODOS los productos del carrito
 router.delete('/:cid', async (req, res) => {
     try {
         const { cid } = req.params; 
@@ -194,7 +191,5 @@ router.delete('/:cid', async (req, res) => {
         res.status(500).json({ error: 'Error al eliminar los productos del carrito' });
     }
 });
-
-
 
 export default router;

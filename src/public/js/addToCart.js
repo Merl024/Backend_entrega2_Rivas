@@ -1,5 +1,6 @@
+// Funcion para agregar al carrito y mostrar con un toast si sí se agrega o no
 function addToCart(productId) {
-    const cartId = '674bb10a535dac3ef850a0ec'; // ID fijo del carrito
+    const cartId = '674bb10a535dac3ef850a0ec'; // ID fijo de un carrito dentro de la DB
 
     console.log(`Agregando producto al carrito: ${cartId}, Producto: ${productId}`);
 

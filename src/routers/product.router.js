@@ -3,7 +3,7 @@ import { productModel } from '../models/product.model.js';
 
 const router = express.Router();
 
-// GET - para traer todos los productos y mostrar por paginacion
+// GET - trae los productos por paginacion y muetra un json segun las indicaciones.
 router.get('/', async (req, res) => {
     try {
         const { page = 1, limit = 10 } = req.query; 
@@ -58,7 +58,7 @@ router.get('/:pid', async (req, res) => {
     }
 });
 
-// POST / - Agregar un nuevo producto
+// POST - Agregar un nuevo producto
 router.post('/', async (req, res) => {
     try {
         const newProduct = await productModel.create(req.body);

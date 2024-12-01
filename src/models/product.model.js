@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import mongoosePaginate from 'mongoose-paginate-v2';
 
+// Conexion con la coleccion 'productos' 
 const productCollection = 'productos';
 
 const productSchema = new mongoose.Schema({
@@ -11,6 +12,7 @@ const productSchema = new mongoose.Schema({
     category: { type: String, required: true }
     }, 
     {
+    // Ocultar la version
     versionKey: false,
     timestamps: true
     }

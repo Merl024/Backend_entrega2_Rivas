@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
-// Hacer la conexion a la coleccion donde quiero guardar las carts
+// Haciendo la conexion a la coleccion donde quiero guardar las carts
 const cartCollection = 'carts'
 
+// Esquema de item del carrito (contiene el producto y la cantidad)
 const cartItemSchema = new mongoose.Schema({
     product: {
         type: mongoose.Schema.Types.ObjectId, 
@@ -16,7 +17,7 @@ const cartItemSchema = new mongoose.Schema({
     }
 });
 
-// Definir el esquema de carrito
+// Esquema de carrito
 const cartSchema = new mongoose.Schema({
     products: {
         type: [cartItemSchema], 
@@ -26,7 +27,8 @@ const cartSchema = new mongoose.Schema({
         type: Date,
         default: Date.now 
     }
-}, { // Ocultar de la vista a la version
+}, { 
+    // Ocultar de la vista a la version
     toJSON: {
         transform: (doc, ret) => {
             delete ret.__v; 
@@ -47,5 +49,4 @@ cartSchema.pre('findOne', function (next) {
     next();
 });
 
-// Crear el modelo de carrito
 export const cartModel = mongoose.model(cartCollection, cartSchema);

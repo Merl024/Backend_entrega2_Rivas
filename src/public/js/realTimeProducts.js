@@ -4,6 +4,8 @@ const socket = io()
 const productForm = document.getElementById('productForm')
 const productList = document.getElementById('productList')
 const submitButton = document.getElementById('submitButton')
+
+// Variables para edicion 
 let editMode = false
 let editingProductId = null
 
@@ -84,7 +86,7 @@ productForm.addEventListener('submit', async (e) => {
 function editProduct(productId) {
     console.log('Modo de edición activado para el producto con ID:', productId);
     editMode = true;
-    editingProductId = productId; // Asegura que este valor esté definido
+    editingProductId = productId; 
 }
 
 // Función para eliminar producto

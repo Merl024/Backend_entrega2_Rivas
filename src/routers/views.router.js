@@ -4,6 +4,7 @@ import { cartModel } from '../models/cart.model.js';
 
 const router = Router()
 
+// Trae los productos por su paginacion, esta funciona para que se muestre correctamente en el handlebars
 router.get('/products', async (req, res) => {
     try {
         const { page = 1, limit = 10, sort, category } = req.query;
@@ -19,7 +20,6 @@ router.get('/products', async (req, res) => {
             lean: true, 
         };
 
-        // Obtener productos paginados
         const products = await productModel.paginate(query, options);
         res.render('home', {
             products: products.docs,
@@ -37,6 +37,7 @@ router.get('/products', async (req, res) => {
     }
 });
 
+// Muestra TODOS los productos en tiempo real a medida se actualicen o se agreguen
 router.get('/realtimeproducts', async (req, res) => {
     try {
         // Obtenemos los productos desde MongoDB
@@ -48,6 +49,7 @@ router.get('/realtimeproducts', async (req, res) => {
     }
 });
 
+// Muestra todos los productos que estan dentro del cart ya fija
 router.get('/carts/:cid', async (req, res) => {
     try {
         const { cid } = req.params;
