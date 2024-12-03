@@ -53,7 +53,7 @@ router.get('/realtimeproducts', async (req, res) => {
 router.get('/carts/:cid', async (req, res) => {
     try {
         const { cid } = req.params;
-        // Convertimos el resultado a un objeto plano
+        
         const cart = await cartModel.findById(cid).populate('products.product').lean();
 
         if (!cart) {

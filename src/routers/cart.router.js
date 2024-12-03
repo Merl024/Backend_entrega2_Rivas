@@ -84,8 +84,8 @@ router.delete('/:cid/products/:pid', async (req, res) => {
 
         const cart = await cartModel.findByIdAndUpdate(
             cid,
-            { $pull: { products: { product: pid } } }, // Elimina el producto del carrito
-            { new: true } // Retorna el carrito actualizado
+            { $pull: { products: { product: pid } } },
+            { new: true }
         );
 
         if (!cart) {

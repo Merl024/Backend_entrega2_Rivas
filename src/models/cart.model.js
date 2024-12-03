@@ -28,7 +28,7 @@ const cartSchema = new mongoose.Schema({
         default: Date.now 
     }
 }, { 
-    // Ocultar de la vista a la version
+    // Ocultar la version
     toJSON: {
         transform: (doc, ret) => {
             delete ret.__v; 
