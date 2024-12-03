@@ -20,14 +20,14 @@ router.get('/:cid', async (req, res) => {
         const { cid } = req.params;
         const cart = await cartModel.findById(cid).populate('products.product');
         if (!cart) {
-            return res.status(404).json({ error: 'Carrito no encontrado' });
+            return res.status(404).json({ error: 'Carrito no existente' });
         }
         res.json({
             status: 'success',
             payload: cart
         });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: 'Error al buscar el carrito' });
     }
 });
 
@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
         const newCart = await cartModel.create(req.body)
         res.status(201).json(newCart);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({ error: 'Error al publicar el carrito' });
     }
 });
 
@@ -72,8 +72,8 @@ router.post('/:cid/product/:pid', async (req, res) => {
             payload: updatedCart
         });
     } catch (error) {
-        console.error('Error al agregar/actualizar producto en el carrito:', error);
-        res.status(500).json({ error: 'Error al agregar/actualizar producto en el carrito' });
+        console.error('Error al agregar producto en el carrito:', error);
+        res.status(500).json({ error: 'Error al agregar producto en el carrito' });
     }
 });
 

@@ -32,23 +32,23 @@ app.set('views', __dirname + '/views')
 app.set('view engine', 'handlebars')
 
 // Helpers de handlebars para que funcione la gestion paginate
-app.engine(
-    'handlebars',
-    handlebars.engine({
-        helpers: {
-            range: (from, to) => {
-                const range = [];
-                for (let i = from; i <= to; i++) {
-                    range.push(i);
-                }
-                return range;
-            },
-            ifEquals: (a, b, options) => {
-                return a === b ? options.fn(this) : options.inverse(this);
-            },
-        },
-    })
-);
+// app.engine(
+//     'handlebars',
+//     handlebars.engine({
+//         helpers: {
+//             range: (from, to) => {
+//                 const range = [];
+//                 for (let i = from; i <= to; i++) {
+//                     range.push(i);
+//                 }
+//                 return range;
+//             },
+//             ifEquals: (a, b, options) => {
+//                 return a === b ? options.fn(this) : options.inverse(this);
+//             },
+//         },
+//     })
+// );
 
 // Rutas
 app.use('/', viewsRouter)
