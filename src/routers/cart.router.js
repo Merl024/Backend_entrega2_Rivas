@@ -77,20 +77,21 @@ router.post('/:cid/product/:pid', async (req, res) => {
     }
 });
 
-// DELETE api/carts/:cid/products/:pid - elimina el producto seleccionado del carrito
+// // DELETE api/carts/:cid/products/:pid - elimina el producto seleccionado del carrito
 router.delete('/:cid/products/:pid', async (req, res) => {
     try {
         const { cid, pid } = req.params;
-        const cart = await cartModel.findById(cid);
+
+        const cart = await cartModel.findByIdAndUpdate(
+            cid,
+            { $pull: { products: { product: pid } } }, // Elimina el producto del carrito
+            { new: true } // Retorna el carrito actualizado
+        );
+
         if (!cart) {
             return res.status(404).json({ error: 'Carrito no encontrado' });
         }
-        const productIndex = cart.products.find(item => item.product.toString() === pid);
-        if (productIndex === -1) {
-            return res.status(404).json({ error: 'Producto no encontrado en el carrito' });
-        }
-        cart.products.splice(productIndex, 1);
-        await cart.save();
+
         res.json({
             status: 'success',
             message: `Producto con ID ${pid} eliminado del carrito ${cid}`,
@@ -101,6 +102,8 @@ router.delete('/:cid/products/:pid', async (req, res) => {
         res.status(500).json({ error: 'Error al eliminar producto del carrito' });
     }
 });
+
+
 
 // PUT api/carts/:cid  - Actualiza el carrito YA CREADO. Pues se puede actualizar agregando mas productos
 router.put('/:cid', async (req, res) => {
